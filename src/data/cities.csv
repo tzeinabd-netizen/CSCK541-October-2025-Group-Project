@@ -1,0 +1,51 @@
+city_id,city_name,country_code  
+1,New York,US  
+2,Los Angeles,US  
+3,Chicago,US  
+4,Houston,US  
+5,Phoenix,US  
+6,London,GB  
+7,Manchester,GB  
+8,Birmingham,GB  
+9,Glasgow,GB  
+10,Liverpool,GB  
+11,Paris,FR  
+12,Lyon,FR  
+13,Marseille,FR  
+14,Toulouse,FR  
+15,Nice,FR  
+16,Berlin,DE  
+17,Munich,DE  
+18,Frankfurt,DE  
+19,Hamburg,DE  
+20,Cologne,DE  
+21,Tokyo,JP  
+22,Osaka,JP  
+23,Nagoya,JP  
+24,Sapporo,JP  
+25,Fukuoka,JP  
+26,Sydney,AU  
+27,Melbourne,AU  
+28,Brisbane,AU  
+29,Perth,AU  
+30,Adelaide,AU  
+31,Toronto,CA  
+32,Vancouver,CA  
+33,Montreal,CA  
+34,Calgary,CA  
+35,Ottawa,CA  
+36,Mumbai,IN  
+37,Delhi,IN  
+38,Bengaluru,IN  
+39,Chennai,IN  
+40,Kolkata,IN  
+41,Dubai,AE  
+42,Abu Dhabi,AE  
+43,Sharjah,AE  
+44,Doha,QA  
+45,Riyadh,SA  
+46,Singapore,SG  
+47,Hong Kong,HK  
+48,Bangkok,TH  
+49,Kuala Lumpur,MY  
+50,Jakarta,ID
