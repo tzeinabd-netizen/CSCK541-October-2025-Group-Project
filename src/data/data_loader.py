@@ -57,3 +57,8 @@ def LoadCities() -> List[str]:
             city_names.append(row["city_name"])  
     return city_names
 
+
+# Aliases for GUI compatibility
+load_country_names = LoadCountries
+load_city_names = LoadCities
+
