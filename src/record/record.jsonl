@@ -1,0 +1,3 @@
+{"ID": 1, "Type": "Client", "Name": "John Mobolaji", "Address_Line_1": "10 Colton street", "Address_Line_2": "407", "Address_Line_3": "", "City": "New York", "State": "New york", "Zip_Code": "10024", "Country": "United States", "Phone_Number": "70865546"}
+{"ID": 2, "Type": "Client", "Name": "Paul Fred", "Address_Line_1": "15 wole street", "Address_Line_2": "", "Address_Line_3": "", "City": "Chicago", "State": "Illinois", "Zip_Code": "60122", "Country": "United States", "Phone_Number": "5664009832"}
+{"ID": 1, "Type": "Airline", "Company_Name": "Easy Jet Airlines"}
