@@ -37,7 +37,7 @@ def LoadCountries() -> List[str]:
     with open(path, mode="r", encoding="utf-8") as f:  
         reader = csv.DictReader(f)  
         for row in reader:  
-            country_names.append(row["country_name"])  
+            country_names.append(row["country_name"].strip())
     return country_names  
   
   
@@ -54,7 +54,7 @@ def LoadCities() -> List[str]:
     with open(path, mode="r", encoding="utf-8") as f:  
         reader = csv.DictReader(f)  
         for row in reader:  
-            city_names.append(row["city_name"])  
+            city_names.append(row["city_name"].strip())
     return city_names
 
 
