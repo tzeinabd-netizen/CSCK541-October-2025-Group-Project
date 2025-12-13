@@ -9,7 +9,6 @@ import os
 import sys
 import random
 from time import process_time
-import timeit
 from src.record.record_manager import RecordManager
 import string
 # Add parent directory to path
