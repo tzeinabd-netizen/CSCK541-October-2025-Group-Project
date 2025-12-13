@@ -12,13 +12,16 @@ from datetime import datetime
 class RecordManager:
     """Main class for managing all record operations"""
     
-    def __init__(self, file_path: str = "src/record/record.jsonl"):
+    def __init__(self, file_path: str = None):
         """
         Initializes the Record Manager
         
         Args:
             file_path: Path to the JSONL file for storing records
         """
+        if file_path is None:
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            file_path = os.path.join(base_dir, "record.jsonl")
         self.file_path = file_path
         self.records: List[Dict] = []
         self.LoadRecords()
