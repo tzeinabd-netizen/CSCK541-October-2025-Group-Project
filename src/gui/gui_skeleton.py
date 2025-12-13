@@ -223,7 +223,7 @@ class ClientCard(ctk.CTkFrame):
             hover_color="#dc2626",
             border_width=1,
             border_color="#dc2626",
-            text_color="#dc2626",
+            text_color="#000000",
             font=ctk.CTkFont(size=12),
             command=lambda: self.on_delete(self.client_data) if self.on_delete else None
         )
@@ -231,7 +231,7 @@ class ClientCard(ctk.CTkFrame):
 
     def _on_hover(self, event):
         """Handle mouse enter event - subtle visual feedback."""
-        self.configure(border_color="#06b6d4")
+        self.configure(border_color="#e0e0e0")
 
     def _on_leave(self, event):
         """Handle mouse leave event - restore default appearance."""
@@ -369,7 +369,7 @@ class ClientDialog(ctk.CTkToplevel):
         
         # Window configuration
         self.title("Edit Client" if client_data else "Create Client")
-        self.geometry("450x1000")
+        self.geometry("450x700")
         self.resizable(False, False)
         self.transient(master)
         self.grab_set()
@@ -388,7 +388,9 @@ class ClientDialog(ctk.CTkToplevel):
 
     def _create_widgets(self):
         """Build the dialog's form widgets."""
-        self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
+
+
+        self.main_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
         self.main_frame.pack(fill="both", expand=True, padx=30, pady=25)
         
         # Title
@@ -429,7 +431,7 @@ class ClientDialog(ctk.CTkToplevel):
             width=100,
             height=40,
             corner_radius=8,
-            fg_color="transparent",
+            fg_color="#474747",
             hover_color="#3b3b3b",
             border_width=1,
             border_color="#3b3b3b",
@@ -575,7 +577,7 @@ class AirlineDialog(ctk.CTkToplevel):
         
         # Window configuration
         self.title("Edit Airline" if airline_data else "Create Airline")
-        self.geometry("400x200")
+        self.geometry("400x250")
         self.resizable(False, False)
         self.transient(master)
         self.grab_set()
@@ -637,7 +639,7 @@ class AirlineDialog(ctk.CTkToplevel):
             width=100,
             height=40,
             corner_radius=8,
-            fg_color="transparent",
+            fg_color="#474747",
             hover_color="#3b3b3b",
             border_width=1,
             border_color="#3b3b3b",
@@ -1392,7 +1394,7 @@ class RecordManagementSystem(ctk.CTk):
                 messagebox.showerror("Error", f"Failed to save flight: {e}")
         
         # Cancel and Save buttons
-        ctk.CTkButton(buttons_frame, text="Cancel", command=dialog.destroy, width=100, height=40, corner_radius=8, fg_color="transparent", hover_color="#f0f0f0", border_width=1, border_color="#d0d0d0", text_color="#1a1a1a").pack(side="left")
+        ctk.CTkButton(buttons_frame, text="Cancel", command=dialog.destroy, width=100, height=40, corner_radius=8, fg_color="#474747", border_width=1, border_color="#d0d0d0", text_color="white").pack(side="left")
         ctk.CTkButton(buttons_frame, text="Save Flight", command=save_flight, width=120, height=40, corner_radius=8, fg_color="#06b6d4", hover_color="#0891b2").pack(side="right")
         
         dialog.wait_window()
