@@ -720,7 +720,7 @@ class RecordManagementSystem(ctk.CTk):
             self.city_list = ["New York", "Toronto", "London"]
         
         # Window configuration
-        self.title("Travel Agent Record Management System")
+        self.title("Travel Record Management System")
         self.geometry("1100x700")
         self.minsize(900, 600)
         
