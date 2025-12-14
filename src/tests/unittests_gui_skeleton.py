@@ -2,12 +2,25 @@ import os
 import sys
 import unittest
 import customtkinter as ctk
-from datetime import datetime
 
 # Add parent directory to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from src.gui.gui_skeleton import RecordManagementSystem,datetime_to_string, _get_field, ClientDialog, AirlineDialog
+from gui.gui_skeleton import(
+    ClientCard, 
+    RecordCard, 
+    FlightCard,
+    RecordManager, 
+    ClientDialog, 
+    AirlineDialog,
+    RecordManagementSystem,
+    _get_field,
+    datetime_to_string,
+    _parse_id_from_dropdown,
+    build_datetime_from_ui,
+)
 
+from datetime import datetime, date
+    
 
 class TestGUI(unittest.TestCase):
     """
@@ -16,7 +29,7 @@ class TestGUI(unittest.TestCase):
 
     def test_fetch_first_matching_key(self):
         """Test the _get_field function to fetch the first matching key from a dictionary."""
-        record = {"ID": 1, "name": "Test Name", "Phone_Number": "5551234"}
+        record = {"ID": 1, "name": "Test Name", "Phone_Number": "555-1234"}
         # Test with the first matching key
         self.assertEqual(_get_field(record, "ID", "id"), "1")
         # Test with a fallback key
@@ -24,15 +37,17 @@ class TestGUI(unittest.TestCase):
         # Test with missing keys
         self.assertEqual(_get_field(record, "Missing"), "")
 
-
-    def test_datetime_to_string (self):
-        """Test the datetime_to_string function to convert datetime to string."""
-        test_dt = datetime(2025, 12, 14, 14, 35, 10)
+    def test_datetime_to_string(self):
+        """Test formatting of datetime objects to standard string format."""
+        # Correctly create a single datetime object first
+        test_dt = datetime(2025, 12, 14, 14, 35, 10) 
         expected_str = "2025-12-14 14:35"
         self.assertEqual(datetime_to_string(test_dt), expected_str)
 
+
     def test_app_created(self):
         """Test existence of application"""
+
         app = RecordManagementSystem()
 
         self.assertIsNotNone(app)
@@ -64,6 +79,7 @@ class TestGUI(unittest.TestCase):
         self.assertIsInstance(app.stats_title, ctk.CTkLabel)
         self.assertIsInstance(app.stats_count, ctk.CTkLabel)
 
+
     def test_buttons_created(self):
         """Test buttons have been created"""
         app = RecordManagementSystem()
@@ -78,17 +94,25 @@ class TestGUI(unittest.TestCase):
         self.assertEqual(app.current_section, "Client")
         self.assertNotEqual(client_btn.cget("fg_color"), "transparent")
 
+    def test_open_dialog(self):
+        """Test opening of dialog windows"""
+        app = RecordManagementSystem()
+        
+        app._switch_section("Client")
+        app._open_add_dialog()
+        self.assertIsInstance(app.dialog, ClientDialog, "Should open ClientDialog in Client section.")
+        app.dialog.destroy()
 
+        app._switch_section("Airline")
+        app._open_add_dialog()
+        self.assertIsInstance(app.dialog, AirlineDialog, "Should open AirlineDialog in Airline section.")
+        app.dialog.destroy()
 
+        app._switch_section("Flight")
+        app._open_add_dialog()
+        self.assertIsInstance(app.dialog, ctk.CTkToplevel, "Should open a Toplevel dialog for Flight section.")
+        app.dialog.destroy()
+        
 
-
-
-
-
-
-
-
-
-
-
-
+        self.assertIsNotNone(app.dialog)
+        self.assertIsInstance(app.dialog, ClientDialog)
