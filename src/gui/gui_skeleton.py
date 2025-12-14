@@ -749,6 +749,12 @@ class RecordManagementSystem(ctk.CTk):
         self._refresh_records()
 
     def _refresh_records(self, filter_text: str = ""):
+        # --- DEBUG CODE START ---
+        flight_records = [r for r in self.record_manager.records if r.get('Type') == 'Flight']
+        print(f"DEBUG GUI REFRESH: Total Records Loaded: {len(self.record_manager.records)}")
+        for i, flight in enumerate(flight_records):
+            print(f"DEBUG GUI REFRESH: Flight {i}: C_ID={flight.get('Client_ID')}, A_ID={flight.get('Airline_ID')}, Date={flight.get('Date')}")
+        # --- DEBUG CODE END ---
         for widget in self.records_container.winfo_children():
             widget.destroy()
         
@@ -942,6 +948,23 @@ class RecordManagementSystem(ctk.CTk):
         Open flight creation/editing dialog with dropdowns for Client/Airline ID 
         and embedded date/time selection.
         """
+
+        # CRITICAL FIX 1: Safely convert original IDs to int only if they exist.
+        # This handles cases where _get_field returns None or a string representation of the ID.
+        original_client_id = None
+        original_airline_id = None
+        if record:
+            client_val = _get_field(record, "Client_ID", "client_id")
+            airline_val = _get_field(record, "Airline_ID", "airline_id")
+            try:
+                original_client_id = int(client_val) if client_val is not None else None
+            except (ValueError, TypeError):
+                pass
+            try:
+                original_airline_id = int(airline_val) if airline_val is not None else None
+            except (ValueError, TypeError):
+                pass
+        
         dialog = ctk.CTkToplevel(self)
         dialog.title("Edit Flight" if record else "Create Flight")
         dialog.geometry("500x550")
@@ -994,22 +1017,20 @@ class RecordManagementSystem(ctk.CTk):
         ctk.CTkLabel(main_frame, text="Date & Time", font=ctk.CTkFont(size=13), text_color="#666666").pack(anchor="w", pady=(10, 3))
         
         # FIX: Set background to a known, single color string (#FFFFFF) to prevent TclError 
-        # when mixing CTK and standard tk widgets.
         date_time_frame = tk.Frame(main_frame, background="#FFFFFF") 
         date_time_frame.pack(anchor="w", pady=(0, 10))
         
         # Date Entry (tkcalendar)
-        # FIX: Add selectmode='day' and state='normal' for full interaction (month/year change)
         dp = DateEntry(
             date_time_frame, 
             date_pattern="yyyy-mm-dd", 
             width=10,
-            selectmode='day',           # Ensures day selection is active
-            state='normal',             # Ensures the widget is fully interactive
-            foreground='#1a1a1a',       # Text color
-            background='#ffffff',       # Widget background
-            borderwidth=1,              # Visible border for clarity
-            relief="solid"              # Solid border style
+            selectmode='day', 
+            state='normal', 
+            foreground='#1a1a1a', 
+            background='#ffffff', 
+            borderwidth=1, 
+            relief="solid" 
         )
         dp.pack(side="left", padx=(0, 10))
         
@@ -1105,24 +1126,43 @@ class RecordManagementSystem(ctk.CTk):
                 return
             
             try:
+                # --- DEBUG CODE START ---
+                print(f"DEBUG GUI: Preparing update call. New Client_ID: {client_id}, New Airline_ID: {airline_id}")
+                print(f"DEBUG GUI: Passing OLD IDs to manager: Client={original_client_id}, Airline={original_airline_id}")
+                # --- DEBUG CODE END ---
+
                 if record:
-                    call_flexible(self.record_manager.UpdateFlight, client_id, airline_id, Date=date_value, Start_City=start, End_City=end)
+                    # FIX: Corrected Typo and passed OLD IDs (positional) for searching
+                    call_flexible(
+                        self.record_manager.UpdateFlight, 
+                        original_client_id,
+                        original_airline_id,
+                        Client_ID=client_id,         # CORRECTED FIELD NAME
+                        Airline_ID=airline_id, 
+                        Date=date_value, 
+                        Start_City=start, 
+                        End_City=end
+                    )
                     messagebox.showinfo("Success", "Flight updated successfully!")
                 else:
                     call_flexible(self.record_manager.CreateFlight, client_id, airline_id, date_value, start, end)
                     messagebox.showinfo("Success", "Flight created successfully!")
                 
+                # CRITICAL FLOW FIX: These actions MUST happen after a successful create OR update.
                 dialog.destroy()
-                self._refresh_records()
+                self._load_flight_dropdown_data() # FIX: Reload lookup tables (ID -> Name)
+                self._refresh_records()           # FIX: Refresh the card display
+                print("DEBUG GUI: Refreshed display with new lookups.") # Debugging message
+
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to save flight: {e}")
-        
-        # Cancel and Save buttons
-        ctk.CTkButton(buttons_frame, text="Cancel", command=dialog.destroy, width=100, height=40, corner_radius=8, fg_color="#474747", hover_color="#f0f0f0", border_width=1, border_color="#d0d0d0", text_color="black").pack(side="left")
+            
+            # Cancel and Save buttons
+        ctk.CTkButton(buttons_frame, text="Cancel", command=dialog.destroy, width=100, height=40, corner_radius=8, fg_color="#474747", hover_color="#3b3b3b", border_width=1, border_color="#d0d0d0", text_color="white").pack(side="left")
         ctk.CTkButton(buttons_frame, text="Save Flight", command=save_flight, width=120, height=40, corner_radius=8, fg_color="#06b6d4", hover_color="#0891b2").pack(side="right")
-        
-        dialog.wait_window()
 
+        # This line starts the dialog loop and must be the LAST line of the function body
+        dialog.wait_window()
 # ============================================================================
 # ENTRY POINT
 # ============================================================================
