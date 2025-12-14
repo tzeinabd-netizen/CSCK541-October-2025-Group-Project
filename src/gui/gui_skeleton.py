@@ -1245,7 +1245,7 @@ class RecordManagementSystem(ctk.CTk):
         # Buttons
         button_frame = tk.Frame(picker_window, bg="#ffffff")
         button_frame.pack(pady=15)
-        tk.Button(button_frame, text="OK", command=submit, width=10, bg="#06b6d4", fg="white", font=("Arial", 10)).pack(side="left", padx=5)
+        tk.Button(button_frame, text="OK", command=submit, width=10, bg="#06b6d4", fg="black", font=("Arial", 10)).pack(side="left", padx=5)
         tk.Button(button_frame, text="Cancel", command=picker_window.destroy, width=10, bg="#e0e0e0", fg="#1a1a1a", font=("Arial", 10)).pack(side="left", padx=5)
         
         picker_window.wait_window()
