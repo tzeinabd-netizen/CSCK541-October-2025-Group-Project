@@ -85,7 +85,7 @@ class RecordManager:
         Returns:  
             bool: True if successful, False otherwise  
         """  
-        print(f"DEBUG MANAGER: Attempting to save {len(self.records)} records to {self.file_path}") # Added Debug Print
+        # print(f"DEBUG MANAGER: Attempting to save {len(self.records)} records to {self.file_path}") # Added Debug Print
         try:  
             os.makedirs(os.path.dirname(self.file_path), exist_ok=True)  
             
@@ -93,11 +93,11 @@ class RecordManager:
             with jsonlines.open(self.file_path, 'w') as writer:  
                 writer.write_all(serializable_records)  
                 
-            print("DEBUG MANAGER: Records saved successfully to file.") # Added Debug Print
+            # print("DEBUG MANAGER: Records saved successfully to file.") # Added Debug Print
             return True  
             
         except Exception as e:  
-            print(f"DEBUG MANAGER: CRITICAL ERROR! Failed to save records: {e}") # Updated Error Print
+            # print(f"DEBUG MANAGER: CRITICAL ERROR! Failed to save records: {e}") # Updated Error Print
             return False
 
     
@@ -319,7 +319,7 @@ class RecordManager:
         Returns:
             Optional[Dict]: Updated record if found, None otherwise
         """
-        print(f"DEBUG MANAGER: START UpdateFlight. Target: (Old_C={old_client_id}, Old_A={old_airline_id})")
+        # print(f"DEBUG MANAGER: START UpdateFlight. Target: (Old_C={old_client_id}, Old_A={old_airline_id})")
         
         # Find flight record by OLD Client_ID and OLD Airline_ID
         for i, record in enumerate(self.records):
@@ -332,7 +332,7 @@ class RecordManager:
                     current_a_id == old_airline_id):
                     
                     # ***If this prints, the match is successful!***
-                    print(f"DEBUG MANAGER: ***MATCH FOUND at Index {i}. Applying updates: {fields}") 
+                    # print(f"DEBUG MANAGER: ***MATCH FOUND at Index {i}. Applying updates: {fields}") 
                     
                     # Apply Updates
                     allowed_fields = ['Client_ID', 'Airline_ID', 'Date', 'Start_City', 'End_City']
@@ -344,10 +344,10 @@ class RecordManager:
                                 record[key] = value
 
                     self.SaveRecords()
-                    print(f"DEBUG MANAGER: ***Update COMPLETE. New Key: (C={record['Client_ID']}, A={record['Airline_ID']})")
+                    # print(f"DEBUG MANAGER: ***Update COMPLETE. New Key: (C={record['Client_ID']}, A={record['Airline_ID']})")
                     return record
         
-        print("DEBUG MANAGER: Record NOT FOUND after checking all flights.")
+        # print("DEBUG MANAGER: Record NOT FOUND after checking all flights.")
         return None
 
     # DELETE operations
