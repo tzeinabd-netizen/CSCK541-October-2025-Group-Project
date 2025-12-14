@@ -307,9 +307,17 @@ class RecordCard(ctk.CTkFrame):
         edit_btn.pack(side="left", padx=(0, 5))
         
         delete_btn = ctk.CTkButton(
-            actions_frame, text="Delete", width=60, height=28, corner_radius=6, 
-            fg_color="transparent", hover_color="#dc2626", border_width=1, 
-            border_color="#dc2626", text_color="#dc2626", font=ctk.CTkFont(size=12), 
+            actions_frame,
+            text="Delete",
+            width=60,
+            height=28,
+            corner_radius=6,
+            fg_color="transparent",
+            hover_color="#dc2626",
+            border_width=1,
+            border_color="#dc2626",
+            text_color="#000000",
+            font=ctk.CTkFont(size=12),
             command=lambda: self.on_delete(self.record_data) if self.on_delete else None
         )
         delete_btn.pack(side="left")
