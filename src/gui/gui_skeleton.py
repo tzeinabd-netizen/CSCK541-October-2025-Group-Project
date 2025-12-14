@@ -128,7 +128,9 @@ class ClientCard(ctk.CTkFrame):
         name = _get_field(self.client_data, "Name", "name", "")
         initials = "".join([n[0].upper() for n in name.split()[:2]]) if name else "??"
         colors = ["#3b82f6", "#8b5cf6", "#06b6d4", "#10b981", "#f59e0b", "#ef4444"]
-        avatar_color = random.choice(colors)
+        client_id = _get_field(self.client_data, "ID", "id", "0")
+        color_index = int(client_id) % len(colors)
+        avatar_color = colors[color_index]
         
         self.avatar = ctk.CTkLabel(
             self, text=initials, width=45, height=45, corner_radius=22, fg_color=avatar_color, 
@@ -673,7 +675,7 @@ class RecordManagementSystem(ctk.CTk):
         self.stats_frame.pack(fill="x", padx=15, pady=15, side="bottom")
         
         self.stats_title = ctk.CTkLabel(
-            self.stats_frame, text="Total Records", font=ctk.CTkFont(size=11), text_color="#666666"
+            self.stats_frame, text="Total Clients", font=ctk.CTkFont(size=11), text_color="#666666"
         )
         self.stats_title.pack(anchor="w", padx=15, pady=(12, 2))
         
@@ -807,11 +809,7 @@ class RecordManagementSystem(ctk.CTk):
                 
             card.pack(fill="x", pady=(0, 10))
         
-        total = (
-            len(self.record_manager.GetAllRecords("Client")) +
-            len(self.record_manager.GetAllRecords("Airline")) +
-            len(self.record_manager.GetAllRecords("Flight"))
-        )
+        total = len(self.record_manager.GetAllRecords("Client"))
         self.stats_count.configure(text=str(total))
 
     def _on_search(self, event):
@@ -832,10 +830,16 @@ class RecordManagementSystem(ctk.CTk):
 
     def _save_new_client(self, data: dict):
         try:
-            call_flexible(self.record_manager.CreateClient,
-                Name=data.get("Name", ""), Address_Line_1=data.get("Address_Line_1", ""), Address_Line_2=data.get("Address_Line_2", ""), 
-                Address_Line_3=data.get("Address_Line_3", ""), City=data.get("City", ""), State=data.get("State", ""), 
-                Zip_Code=data.get("Zip_Code", ""), Country=data.get("Country", ""), Phone_Number=data.get("Phone_Number", "")
+            self.record_manager.CreateClient(
+                name=data.get("Name", ""),
+                address_line1=data.get("Address_Line_1", ""),
+                address_line2=data.get("Address_Line_2", ""),
+                address_line3=data.get("Address_Line_3", ""),
+                city=data.get("City", ""),
+                state=data.get("State", ""),
+                zip_code=data.get("Zip_Code", ""),
+                country=data.get("Country", ""),
+                phone_number=data.get("Phone_Number", "")
             )
             messagebox.showinfo("Success", "Client created successfully!")
             self._refresh_records()
