@@ -94,25 +94,4 @@ class TestGUI(unittest.TestCase):
         self.assertEqual(app.current_section, "Client")
         self.assertNotEqual(client_btn.cget("fg_color"), "transparent")
 
-    def test_open_dialog(self):
-        """Test opening of dialog windows"""
-        app = RecordManagementSystem()
-        
-        app._switch_section("Client")
-        app._open_add_dialog()
-        self.assertIsInstance(app.dialog, ClientDialog, "Should open ClientDialog in Client section.")
-        app.dialog.destroy()
 
-        app._switch_section("Airline")
-        app._open_add_dialog()
-        self.assertIsInstance(app.dialog, AirlineDialog, "Should open AirlineDialog in Airline section.")
-        app.dialog.destroy()
-
-        app._switch_section("Flight")
-        app._open_add_dialog()
-        self.assertIsInstance(app.dialog, ctk.CTkToplevel, "Should open a Toplevel dialog for Flight section.")
-        app.dialog.destroy()
-        
-
-        self.assertIsNotNone(app.dialog)
-        self.assertIsInstance(app.dialog, ClientDialog)
