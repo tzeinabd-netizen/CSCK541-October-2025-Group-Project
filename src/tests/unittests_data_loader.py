@@ -20,6 +20,7 @@ class TestDataLoader(unittest.TestCase):
     def test_load_countries(self):
         """
         Test the LoadCountries function from csv
+        This test should pass.
         """
         result = LoadCountries()
         country_list_reference = ["United States",
@@ -39,16 +40,37 @@ class TestDataLoader(unittest.TestCase):
                                   "Malaysia",
                                   "Indonesia"]
 
-        if len(result) != len(country_list_reference):
-            self.assertTrue(False)
-            return
+        self.assertEqual (result, country_list_reference)
 
-        for index, country in enumerate(result):
-            self.assertEqual(country, country_list_reference[index])
+    def test_load_countries_fail(self):
+        """
+        Test the LoadCountries function from csv.
+        This test should fail as there is
+        a country missing.
+        """
+        result = LoadCountries()
+        country_list_reference = ["United States",
+                                  "United Kingdom",
+                                  "France",
+                                  "Germany",
+                                  "Japan",
+                                  "Australia",
+                                  "Canada",
+                                  "India",
+                                  "United Arab Emirates",
+                                  "Qatar",
+                                  "Saudi Arabia",
+                                  "Singapore",
+                                  "Hong Kong",
+                                  "Thailand",
+                                  "Malaysia"] # Country removed
+
+        self.assertEqual(result, country_list_reference)
 
     def test_load_cities(self):
         """
         Test the LoadCities function from csv
+        This test should pass.
         """
         result = LoadCities()
         city_list_reference = ["New York",
@@ -102,13 +124,68 @@ class TestDataLoader(unittest.TestCase):
                                "Kuala Lumpur",
                                "Jakarta", ]
 
-        if len(result) != len(city_list_reference):
-            self.assertTrue(False)
-            return
+        self.assertEqual(result, city_list_reference)
 
-        for index, city in enumerate(result):
-            self.assertEqual(city, city_list_reference[index])
 
+    def test_load_cities_fail(self):
+        """
+        Test the LoadCities function from csv
+        This test should fail as there is
+        an error in a city name.
+        """
+        result = LoadCities()
+        city_list_reference = ["New York",
+                               "Los Angeles",
+                               "Chicago",
+                               "Houston",
+                               "Phoenix",
+                               "London",
+                               "Manchester",
+                               "Birmingham",
+                               "Glasgow",
+                               "Liverpool",
+                               "Paris",
+                               "Lyon",
+                               "Marseille",
+                               "Toulouse",
+                               "Nice",
+                               "Berlin",
+                               "Munich",
+                               "Frankfurt",
+                               "Hamburg",
+                               "Cologne",
+                               "Tokyo",
+                               "Osaka",
+                               "Nagoya",
+                               "Sapporo",
+                               "Fukuoka",
+                               "Sydney",
+                               "Melbourne",
+                               "Brisbane",
+                               "Perth",
+                               "Adelaide",
+                               "Toronto",
+                               "Vancouver",
+                               "Montreal",
+                               "Calgary",
+                               "Ottawa",
+                               "Mumbai",
+                               "Delhi",
+                               "Bengaluru",
+                               "Chennai",
+                               "Kolkata",
+                               "Dubai",
+                               "Abu Dhabi",
+                               "Sharjah",
+                               "Doha",
+                               "Riyad", #h removed from city name
+                               "Singapore",
+                               "Hong Kong",
+                               "Bangkok",
+                               "Kuala Lumpur",
+                               "Jakarta", ]
+
+        self.assertEqual(result, city_list_reference)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)  # Give detailed feedback
