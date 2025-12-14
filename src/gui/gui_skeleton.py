@@ -335,7 +335,7 @@ class RecordCard(ctk.CTkFrame):
             hover_color="#dc2626",
             border_width=1,
             border_color="#dc2626",
-            text_color="#dc2626",
+            text_color="#000000",
             font=ctk.CTkFont(size=12),
             command=lambda: self.on_delete(self.record_data) if self.on_delete else None
         )
