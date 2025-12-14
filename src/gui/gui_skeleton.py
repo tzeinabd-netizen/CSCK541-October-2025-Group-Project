@@ -179,7 +179,7 @@ class ClientCard(ctk.CTkFrame):
         self.delete_btn.pack(side="left")
 
     def _on_hover(self, event):
-        self.configure(border_color="#06b6d4")
+        self.configure(border_color="#e0e0e0")
 
     def _on_leave(self, event):
         self.configure(border_color="#e0e0e0")
@@ -254,7 +254,7 @@ class FlightCard(ctk.CTkFrame):
         self.delete_btn = ctk.CTkButton(
             self.actions_frame, text="Delete", width=60, height=28, corner_radius=6, 
             fg_color="transparent", hover_color="#dc2626", border_width=1, 
-            border_color="#dc2626", text_color="#dc2626", font=ctk.CTkFont(size=12), 
+            border_color="#dc2626", text_color="#000000", font=ctk.CTkFont(size=12),
             command=lambda: self.on_delete(self.flight_data) if self.on_delete else None
         )
         self.delete_btn.pack(side="left")
@@ -339,7 +339,7 @@ class ClientDialog(ctk.CTkToplevel):
         self.result = None
         
         self.title("Edit Client" if client_data else "Create Client")
-        self.geometry("450x1000")
+        self.geometry("450x700")
         self.resizable(False, False)
         self.transient(master)
         self.grab_set()
@@ -355,7 +355,7 @@ class ClientDialog(ctk.CTkToplevel):
             self._populate_fields()
 
     def _create_widgets(self):
-        self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
+        self.main_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
         self.main_frame.pack(fill="both", expand=True, padx=30, pady=25)
         
         title_text = "Edit Client" if self.client_data else "New Client"
@@ -385,7 +385,7 @@ class ClientDialog(ctk.CTkToplevel):
         
         self.cancel_btn = ctk.CTkButton(
             self.buttons_frame, text="Cancel", width=100, height=40, corner_radius=8, 
-            fg_color="transparent", hover_color="#3b3b3b", border_width=1, 
+            fg_color="#474747", hover_color="#3b3b3b", border_width=1,
             border_color="#3b3b3b", command=self.destroy
         )
         self.cancel_btn.pack(side="left")
@@ -519,7 +519,7 @@ class AirlineDialog(ctk.CTkToplevel):
         
         self.cancel_btn = ctk.CTkButton(
             self.buttons_frame, text="Cancel", width=100, height=40, corner_radius=8, 
-            fg_color="transparent", hover_color="#3b3b3b", border_width=1, 
+            fg_color="#474747", hover_color="#3b3b3b", border_width=1,
             border_color="#3b3b3b", command=self.destroy
         )
         self.cancel_btn.pack(side="left")
@@ -992,14 +992,14 @@ class RecordManagementSystem(ctk.CTk):
         # FIX: Set background to a known, single color string (#FFFFFF) to prevent TclError 
         # when mixing CTK and standard tk widgets.
         date_time_frame = tk.Frame(main_frame, background="#FFFFFF") 
-        date_time_frame.pack(fill="x", pady=(0, 10))
+        date_time_frame.pack(anchor="w", pady=(0, 10))
         
         # Date Entry (tkcalendar)
         # FIX: Add selectmode='day' and state='normal' for full interaction (month/year change)
         dp = DateEntry(
             date_time_frame, 
             date_pattern="yyyy-mm-dd", 
-            width=12,
+            width=10,
             selectmode='day',           # Ensures day selection is active
             state='normal',             # Ensures the widget is fully interactive
             foreground='#1a1a1a',       # Text color
@@ -1114,7 +1114,7 @@ class RecordManagementSystem(ctk.CTk):
                 messagebox.showerror("Error", f"Failed to save flight: {e}")
         
         # Cancel and Save buttons
-        ctk.CTkButton(buttons_frame, text="Cancel", command=dialog.destroy, width=100, height=40, corner_radius=8, fg_color="transparent", hover_color="#f0f0f0", border_width=1, border_color="#d0d0d0", text_color="#1a1a1a").pack(side="left")
+        ctk.CTkButton(buttons_frame, text="Cancel", command=dialog.destroy, width=100, height=40, corner_radius=8, fg_color="#474747", hover_color="#f0f0f0", border_width=1, border_color="#d0d0d0", text_color="black").pack(side="left")
         ctk.CTkButton(buttons_frame, text="Save Flight", command=save_flight, width=120, height=40, corner_radius=8, fg_color="#06b6d4", hover_color="#0891b2").pack(side="right")
         
         dialog.wait_window()
