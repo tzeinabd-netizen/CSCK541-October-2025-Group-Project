@@ -38,9 +38,11 @@ class RecordManager:
         else:  
             self.records = []
     
+  
     def DeserializeRecord(self, record: Dict) -> Dict:  
         """  
-        Convert serialized fields (like Date) into Python types (like datetime).  
+        Convert serialized fields (like Date) into Python types (like datetime) 
+        and ensure IDs are integers.
         """  
         if record.get("Type") == "Flight":  
             date_val = record.get("Date")  
@@ -48,10 +50,23 @@ class RecordManager:
                 try:  
                     record["Date"] = datetime.fromisoformat(date_val)  
                 except ValueError:  
-                    # If parsing fails, leave it as string  
-                    pass  
-        return record  
-  
+                    pass
+            
+            # CRITICAL FIX: Ensure IDs are always integers for comparison later
+            if "Client_ID" in record:
+                try: record["Client_ID"] = int(record["Client_ID"])
+                except: pass
+            if "Airline_ID" in record:
+                try: record["Airline_ID"] = int(record["Airline_ID"])
+                except: pass
+
+        elif record.get("Type") in ["Client", "Airline"]:
+            if "ID" in record:
+                try: record["ID"] = int(record["ID"])
+                except: pass
+        
+        return record
+
     def SerializeRecord(self, record: Dict) -> Dict:  
         """  
         Convert Python types (like datetime) into JSON-serializable values.  
@@ -62,7 +77,7 @@ class RecordManager:
             if isinstance(date_val, datetime):  
                 record_copy["Date"] = date_val.isoformat()  
         return record_copy
-
+    
     def SaveRecords(self) -> bool:  
         """  
         Save records to file system  
@@ -70,15 +85,21 @@ class RecordManager:
         Returns:  
             bool: True if successful, False otherwise  
         """  
+        print(f"DEBUG MANAGER: Attempting to save {len(self.records)} records to {self.file_path}") # Added Debug Print
         try:  
             os.makedirs(os.path.dirname(self.file_path), exist_ok=True)  
+            
             serializable_records = [self.SerializeRecord(r) for r in self.records]  
             with jsonlines.open(self.file_path, 'w') as writer:  
                 writer.write_all(serializable_records)  
+                
+            print("DEBUG MANAGER: Records saved successfully to file.") # Added Debug Print
             return True  
+            
         except Exception as e:  
-            print(f"Error saving records: {e}")  
+            print(f"DEBUG MANAGER: CRITICAL ERROR! Failed to save records: {e}") # Updated Error Print
             return False
+
     
     def GenerateId(self, record_type: str) -> int:
         """
@@ -286,32 +307,49 @@ class RecordManager:
             return record
         return None
     
-    def UpdateFlight(self, client_id: int, airline_id: int, **fields) -> Optional[Dict]:
+    def UpdateFlight(self, old_client_id: int, old_airline_id: int, **fields) -> Optional[Dict]:
         """
-        Update a flight record
+        Update a flight record by its OLD composite key, and allow updating the IDs.
         
         Args:
-            client_id: Client ID
-            airline_id: Airline ID
-            **fields: Fields to update in key-value pairs
+            old_client_id: The Client ID currently stored in the record (used to FIND the record).
+            old_airline_id: The Airline ID currently stored in the record (used to FIND the record).
+            **fields: Fields to update in key-value pairs (can include new Client_ID and Airline_ID).
             
         Returns:
             Optional[Dict]: Updated record if found, None otherwise
         """
-        # Find flight record by Client_ID and Airline_ID
-        for record in self.records:
-            if (record.get('Type') == 'Flight' and 
-                record.get('Client_ID') == client_id and 
-                record.get('Airline_ID') == airline_id):
+        print(f"DEBUG MANAGER: START UpdateFlight. Target: (Old_C={old_client_id}, Old_A={old_airline_id})")
+        
+        # Find flight record by OLD Client_ID and OLD Airline_ID
+        for i, record in enumerate(self.records):
+            if record.get('Type') == 'Flight':
+                current_c_id = record.get('Client_ID')
+                current_a_id = record.get('Airline_ID')
                 
-                allowed_fields = ['Date', 'Start_City', 'End_City']
-                for key, value in fields.items():
-                    if key in allowed_fields:
-                        record[key] = value
-                self.SaveRecords()
-                return record
+                # Comparison should now work because IDs are guaranteed to be integers
+                if (current_c_id == old_client_id and 
+                    current_a_id == old_airline_id):
+                    
+                    # ***If this prints, the match is successful!***
+                    print(f"DEBUG MANAGER: ***MATCH FOUND at Index {i}. Applying updates: {fields}") 
+                    
+                    # Apply Updates
+                    allowed_fields = ['Client_ID', 'Airline_ID', 'Date', 'Start_City', 'End_City']
+                    for key, value in fields.items():
+                        if key in allowed_fields:
+                            if key in ['Client_ID', 'Airline_ID']:
+                                record[key] = int(value) if value is not None else value
+                            else:
+                                record[key] = value
+
+                    self.SaveRecords()
+                    print(f"DEBUG MANAGER: ***Update COMPLETE. New Key: (C={record['Client_ID']}, A={record['Airline_ID']})")
+                    return record
+        
+        print("DEBUG MANAGER: Record NOT FOUND after checking all flights.")
         return None
-    
+
     # DELETE operations
     def DeleteRecord(self, record_id: int, record_type: str) -> bool:
         """
