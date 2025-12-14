@@ -209,8 +209,6 @@ pip install tkcalendar
 
 - **Operating System**: Windows, macOS, or Linux
 - **Python Version**: 3.8 or higher
-- **RAM**: Minimum 512MB (recommended 1GB+)
-- **Display**: 1024x768 minimum resolution
 
 ## Data Format
 
