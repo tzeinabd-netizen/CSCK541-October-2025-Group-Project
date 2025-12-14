@@ -2,6 +2,23 @@
 
 A modern GUI application built with CustomTkinter for managing travel records including Clients, Airlines, and Flights.
 
+## University Project
+
+**Course:** CSCK541 - Software Development  
+**Institution:** University of Liverpool  
+**Term:** 14 December, 2025
+
+### Team Members
+
+| Name | Email |
+|------|-------|
+| Agarwal, Shilpa | 
+| Curran, Aislinn Louise | 
+| Mobolaji, John Temitope |
+| Naji, Abdul Wahab | 
+| Zein Abdin, Talah |
+
+
 ## Features
 
 - **Client Management**: Create, read, update, and delete client records

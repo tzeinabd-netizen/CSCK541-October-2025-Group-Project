@@ -173,7 +173,7 @@ class ClientCard(ctk.CTkFrame):
         self.delete_btn = ctk.CTkButton(
             self.actions_frame, text="Delete", width=60, height=28, corner_radius=6, 
             fg_color="transparent", hover_color="#dc2626", border_width=1, 
-            border_color="#dc2626", text_color="#dc2626", font=ctk.CTkFont(size=12), 
+            border_color="#dc2626", text_color="#000000", font=ctk.CTkFont(size=12),
             command=lambda: self.on_delete(self.client_data) if self.on_delete else None
         )
         self.delete_btn.pack(side="left")
@@ -479,7 +479,7 @@ class AirlineDialog(ctk.CTkToplevel):
         self.result = None
         
         self.title("Edit Airline" if airline_data else "Create Airline")
-        self.geometry("400x200")
+        self.geometry("400x250")
         self.resizable(False, False)
         self.transient(master)
         self.grab_set()
@@ -582,7 +582,7 @@ class RecordManagementSystem(ctk.CTk):
         self.client_lookup = {}
         self.airline_lookup = {}
         
-        self.title("Travel Agent Record Management System")
+        self.title("Travel Record Management System")
         self.geometry("1100x700")
         self.minsize(900, 600)
         
