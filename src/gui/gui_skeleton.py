@@ -750,10 +750,10 @@ class RecordManagementSystem(ctk.CTk):
 
     def _refresh_records(self, filter_text: str = ""):
         # --- DEBUG CODE START ---
-        flight_records = [r for r in self.record_manager.records if r.get('Type') == 'Flight']
-        print(f"DEBUG GUI REFRESH: Total Records Loaded: {len(self.record_manager.records)}")
-        for i, flight in enumerate(flight_records):
-            print(f"DEBUG GUI REFRESH: Flight {i}: C_ID={flight.get('Client_ID')}, A_ID={flight.get('Airline_ID')}, Date={flight.get('Date')}")
+        # flight_records = [r for r in self.record_manager.records if r.get('Type') == 'Flight']
+        # print(f"DEBUG GUI REFRESH: Total Records Loaded: {len(self.record_manager.records)}")
+        # for i, flight in enumerate(flight_records):
+        #    print(f"DEBUG GUI REFRESH: Flight {i}: C_ID={flight.get('Client_ID')}, A_ID={flight.get('Airline_ID')}, Date={flight.get('Date')}")
         # --- DEBUG CODE END ---
         for widget in self.records_container.winfo_children():
             widget.destroy()
@@ -1127,8 +1127,8 @@ class RecordManagementSystem(ctk.CTk):
             
             try:
                 # --- DEBUG CODE START ---
-                print(f"DEBUG GUI: Preparing update call. New Client_ID: {client_id}, New Airline_ID: {airline_id}")
-                print(f"DEBUG GUI: Passing OLD IDs to manager: Client={original_client_id}, Airline={original_airline_id}")
+                # print(f"DEBUG GUI: Preparing update call. New Client_ID: {client_id}, New Airline_ID: {airline_id}")
+                # print(f"DEBUG GUI: Passing OLD IDs to manager: Client={original_client_id}, Airline={original_airline_id}")
                 # --- DEBUG CODE END ---
 
                 if record:
@@ -1152,7 +1152,7 @@ class RecordManagementSystem(ctk.CTk):
                 dialog.destroy()
                 self._load_flight_dropdown_data() # FIX: Reload lookup tables (ID -> Name)
                 self._refresh_records()           # FIX: Refresh the card display
-                print("DEBUG GUI: Refreshed display with new lookups.") # Debugging message
+                # print("DEBUG GUI: Refreshed display with new lookups.") # Debugging message
 
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to save flight: {e}")
