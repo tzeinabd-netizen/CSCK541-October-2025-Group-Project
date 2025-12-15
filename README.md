@@ -8,16 +8,6 @@ A modern GUI application built with CustomTkinter for managing travel records in
 **Institution:** University of Liverpool  
 **Term:** 14 December, 2025
 
-### Team Members
-
-| Name | Email |
-|------|-------|
-| Agarwal, Shilpa | 
-| Curran, Aislinn Louise | 
-| Mobolaji, John Temitope |
-| Naji, Abdul Wahab | 
-| Zein Abdin, Talah |
-
 
 ## Features
 
@@ -26,6 +16,88 @@ A modern GUI application built with CustomTkinter for managing travel records in
 - **Flight Management**: Track flights with client-airline relationships, dates, and routes
 - **Modern UI**: Clean, card-based interface with real-time search
 - **Data Persistence**: Records are saved to JSONL format
+
+---
+
+## Application Screenshots
+
+### Main Interface
+
+#### Client Records View
+The main dashboard displaying all client records with search functionality and quick actions.
+
+![Client Records](screenshots/client_records.png)
+
+#### Flight Records View
+View and manage flight bookings with client-airline associations and departure details.
+
+![Flight Records](screenshots/flight_records.png)
+
+#### Search Functionality
+Real-time search filtering across all record fields.
+
+![Search Records](screenshots/search_records.png)
+
+---
+
+### Record Creation Dialogs
+
+#### Create New Client
+Scrollable form with fields for client details including name, address, city, country, and phone number.
+
+![Create Client](screenshots/create_client.png)
+
+#### Create New Airline
+Simple dialog for adding new airline companies.
+
+![Create Airline](screenshots/create_airline.png)
+
+#### Create New Flight
+Flight booking form with client/airline dropdowns, date-time picker, and city selection.
+
+![Create Flight](screenshots/create_flight.png)
+
+---
+
+### Record Management
+
+#### Delete Confirmation
+Confirmation dialog before permanently removing records.
+
+![Delete Confirmation](screenshots/delete_confirmation.png)
+
+---
+
+## Testing
+
+### Unit Tests
+
+The application includes comprehensive unit tests for all major components.
+
+#### GUI Component Tests
+Tests verify the correct creation of application components including sidebar, buttons, and main content areas.
+
+![GUI Unit Tests](screenshots/unittest_gui.png)
+
+**Test Results:** 6 tests passed in 0.434s ✅
+
+#### Data Loader Tests
+
+![Data Loader Tests](screenshots/unittest_data_loader.png)
+
+### Performance Tests
+
+Performance benchmarks for data loading operations.
+
+![Performance Tests](screenshots/performance_tests.png)
+
+| Function | Execution Time |
+|----------|----------------|
+| LoadCountries | ~0.00009s |
+| LoadCities | ~0.00008s |
+| Load Capacity Test | ~0.89s |
+
+---
 
 ## Prerequisites
 
@@ -63,7 +135,6 @@ venv\Scripts\activate
 ### Step 3: Install Dependencies
 
 Install all required packages from `requirements.txt`:
-
 ```bash
 pip install -r requirements.txt
 ```
@@ -76,7 +147,6 @@ This will install:
 ### Step 4: Verify Installation
 
 Make sure all packages are installed correctly:
-
 ```bash
 pip list
 ```
@@ -109,15 +179,43 @@ From the project root directory:
 python3 src/gui/gui_skeleton.py
 ```
 
-> **Note:** The application has been tested on Intellij IDEA and VsCode and should be run from the project root directory to correctly locate data files.
+> **Note:** The application has been tested on IntelliJ IDEA and VS Code and should be run from the project root directory to correctly locate data files.
+
+## Running Tests
+
+### Unit Tests
+```bash
+python -m pytest src/tests/ -v
+```
+
+Or run individual test files:
+```bash
+python src/tests/unittests_record_manager.py
+python src/tests/unittests_data_loader.py
+```
+
+### Performance Tests
+```bash
+python src/tests/performancetests.py
+```
 
 ## Project Structure
-
 ```
 CSCK541-October-2025-Group-Project/
 ├── README.md                 # This file
 ├── requirements.txt          # Python dependencies
 ├── .gitignore                # Git ignore rules
+├── screenshots/              # Application screenshots
+│   ├── client_records.png
+│   ├── flight_records.png
+│   ├── create_client.png
+│   ├── create_airline.png
+│   ├── create_flight.png
+│   ├── delete_confirmation.png
+│   ├── search_records.png
+│   ├── unittest_gui.png
+│   ├── unittest_data_loader.png
+│   └── performance_tests.png
 ├── src/
 │   ├── data/
 │   │   ├── cities.csv        # City data
@@ -132,6 +230,7 @@ CSCK541-October-2025-Group-Project/
 │   ├── tests/
 │   │   ├── performancetests.py         # Performance test suite
 │   │   ├── unittests_data_loader.py    # Unit tests for data loader
+│   │   ├── unittests_gui_skeleton.py   # Unit tests for GUI
 │   │   └── unittests_record_manager.py # Unit tests for record manager
 │   └── main.py               # Application entry point
 ```
@@ -217,5 +316,3 @@ Records are stored in JSONL format (`record.jsonl`):
 - **Client**: ID, Type, Name, Address fields, City, State, Zip Code, Country, Phone Number
 - **Airline**: ID, Type, Company Name
 - **Flight**: Client_ID, Airline_ID, Date, Start_City, End_City
-
-
