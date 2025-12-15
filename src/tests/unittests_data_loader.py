@@ -9,9 +9,9 @@ import unittest
 import os
 import sys
 
-# Add parent directory to path
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..')))
+# Ensure src/ is on path so local imports work when running module directly
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from src.data.data_loader import LoadCountries, LoadCities
 
 

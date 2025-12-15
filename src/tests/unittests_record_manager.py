@@ -7,8 +7,9 @@ import os
 import sys
 from datetime import datetime
 
-# Add parent directory to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Ensure src/ is on path so local imports work when running module directly
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from src.record.record_manager import RecordManager
 
 
@@ -24,8 +25,6 @@ class TestRecordManager(unittest.TestCase):
         """Clean up after tests"""
         if os.path.exists(self.test_file):
             os.remove(self.test_file)
-
-            # CREATE tests
 
     def test_create_client_record(self):
         """Test creating a client record"""
