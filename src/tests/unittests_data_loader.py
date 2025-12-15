@@ -12,7 +12,7 @@ import sys
 # Ensure src/ is on path so local imports work when running module directly
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.data.data_loader import LoadCountries, LoadCities
+from data.data_loader import LoadCountries, LoadCities
 
 
 class TestDataLoader(unittest.TestCase):

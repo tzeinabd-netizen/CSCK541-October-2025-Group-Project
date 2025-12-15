@@ -10,7 +10,7 @@ from datetime import datetime
 # Ensure src/ is on path so local imports work when running module directly
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.record.record_manager import RecordManager
+from record.record_manager import RecordManager
 
 
 class TestRecordManager(unittest.TestCase):

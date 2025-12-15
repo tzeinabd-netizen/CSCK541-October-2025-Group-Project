@@ -3,17 +3,19 @@ Performance tests for the data loader and record manager modules.
 They test the functions LoadCounties, LoadCities and the load capacity
 of adding new clients to the record manager.
 
-"""  
-from src.data.data_loader import LoadCountries, LoadCities
+"""
+
 import os
 import sys
+
+# Ensure src/ is on path so local imports work when running module directly
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from data.data_loader import LoadCountries, LoadCities
+from record.record_manager import RecordManager
 import random
 from time import process_time
-from src.record.record_manager import RecordManager
 import string
-# Add parent directory to path
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..')))
 
 
 def performance_test(function_handle, function_name, *args):

@@ -7,7 +7,7 @@ from datetime import datetime
 # Ensure src/ is on path so local imports work when running module directly
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.gui.gui_skeleton import RecordManagementSystem,datetime_to_string, _get_field
+from gui.gui_skeleton import RecordManagementSystem,datetime_to_string, _get_field
 
 
 class TestGUI(unittest.TestCase):
